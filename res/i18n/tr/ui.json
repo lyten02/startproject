@@ -1,0 +1,43 @@
+{
+  "pause_label": "DURAKLAT  (P)",
+  "cookbook_title": "TARİF KİTABI  (C — kapat)",
+  "recipe_ordered": "[sıralı]",
+  "recipe_any_order": "[sıra farketmez]",
+  "held": {
+    "ready": "hazır",
+    "plate": "Tabak",
+    "plate_dirty": "Tabak (kirli)",
+    "dish_ready": "{name} hazır",
+    "item": "Öğe",
+    "state_label": "durum",
+    "freshness_label": "tazelik"
+  },
+  "inspector": {
+    "plate_ready": "Tabak — {name} hazır",
+    "dirty_suffix": "(kirli)",
+    "empty": "boş"
+  },
+  "debug": {
+    "hint": "F2: aç/kapat  +/-: hız"
+  },
+  "orient": {
+    "main": "Cihazı çevir",
+    "sub": "Sadece yatay mod"
+  },
+  "score": {
+    "served": "Servis: {n}",
+    "failed": "Kaçırılan: {n}",
+    "money":  "$ {n}"
+  },
+  "stations": {
+    "sink": "Lavabo",
+    "stand": "Tezgâh",
+    "pan": "Tava",
+    "pot": "Tencere",
+    "board": "Kesme tahtası",
+    "plates": "Tabaklar",
+    "prep_table": "Hazırlık masası",
+    "serve_here": "Servis",
+    "trash": "Çöp"
+  }
+}

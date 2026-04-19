@@ -1,0 +1,17 @@
+{
+  "bread": "Brot",
+  "meat": "Fleisch",
+  "cheese": "Käse",
+  "tomato": "Tomate",
+  "lettuce": "Salat",
+  "onion": "Zwiebel",
+  "cucumber": "Gurke",
+  "state": {
+    "raw": "Roh",
+    "chopped": "Geschnitten",
+    "cooked": "Gebraten",
+    "boiled": "Gekocht",
+    "burnt": "Verbrannt",
+    "spoiled": "Verdorben"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "bread": "Bread",
+  "meat": "Meat",
+  "cheese": "Cheese",
+  "tomato": "Tomato",
+  "lettuce": "Lettuce",
+  "onion": "Onion",
+  "cucumber": "Cucumber",
+  "state": {
+    "raw": "Raw",
+    "chopped": "Chopped",
+    "cooked": "Cooked",
+    "boiled": "Boiled",
+    "burnt": "Burnt",
+    "spoiled": "Spoiled"
+  }
+}

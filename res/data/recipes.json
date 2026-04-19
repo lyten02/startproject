@@ -1,0 +1,112 @@
+{
+  "recipes": [
+    {
+      "id": "Sandwich",
+      "i18n_key": "recipes.sandwich",
+      "result_icon_path": "sprites/dishes/sandwich",
+      "allowed_containers": ["plate"],
+      "max_ingredients_total": 2,
+      "fallback_behavior": "block",
+      "strict_order": false,
+      "ingredients": [
+        { "ingredient_id": "bread",  "required_state": null, "count": 1, "position_index": 0 },
+        { "ingredient_id": "cheese", "required_state": null, "count": 1, "position_index": 1 }
+      ]
+    },
+    {
+      "id": "Bruschetta",
+      "i18n_key": "recipes.bruschetta",
+      "result_icon_path": "sprites/dishes/bruschetta",
+      "allowed_containers": ["plate"],
+      "max_ingredients_total": 2,
+      "fallback_behavior": "block",
+      "strict_order": false,
+      "ingredients": [
+        { "ingredient_id": "bread",  "required_state": null,      "count": 1, "position_index": 0 },
+        { "ingredient_id": "tomato", "required_state": "chopped", "count": 1, "position_index": 1 }
+      ]
+    },
+    {
+      "id": "ClassicBurger",
+      "i18n_key": "recipes.classic_burger",
+      "result_icon_path": "sprites/dishes/classic_burger",
+      "allowed_containers": ["plate"],
+      "max_ingredients_total": 4,
+      "fallback_behavior": "block",
+      "strict_order": true,
+      "ingredients": [
+        { "ingredient_id": "bread",   "required_state": null,     "count": 1, "position_index": 0 },
+        { "ingredient_id": "meat",    "required_state": "cooked", "count": 1, "position_index": 1 },
+        { "ingredient_id": "lettuce", "required_state": null,     "count": 1, "position_index": 2 },
+        { "ingredient_id": "bread",   "required_state": null,     "count": 1, "position_index": 3 }
+      ]
+    },
+    {
+      "id": "CheeseBurger",
+      "i18n_key": "recipes.cheese_burger",
+      "result_icon_path": "sprites/dishes/cheese_burger",
+      "allowed_containers": ["plate"],
+      "max_ingredients_total": 4,
+      "fallback_behavior": "block",
+      "strict_order": true,
+      "ingredients": [
+        { "ingredient_id": "bread",  "required_state": null,     "count": 1, "position_index": 0 },
+        { "ingredient_id": "meat",   "required_state": "cooked", "count": 1, "position_index": 1 },
+        { "ingredient_id": "cheese", "required_state": null,     "count": 1, "position_index": 2 },
+        { "ingredient_id": "bread",  "required_state": null,     "count": 1, "position_index": 3 }
+      ]
+    },
+    {
+      "id": "RoyalBurger",
+      "i18n_key": "recipes.royal_burger",
+      "result_icon_path": "sprites/dishes/royal_burger",
+      "allowed_containers": ["plate"],
+      "max_ingredients_total": 6,
+      "fallback_behavior": "block",
+      "strict_order": true,
+      "ingredients": [
+        { "ingredient_id": "bread",   "required_state": null,      "count": 1, "position_index": 0 },
+        { "ingredient_id": "meat",    "required_state": "cooked",  "count": 1, "position_index": 1 },
+        { "ingredient_id": "cheese",  "required_state": null,      "count": 1, "position_index": 2 },
+        { "ingredient_id": "tomato",  "required_state": "chopped", "count": 1, "position_index": 3 },
+        { "ingredient_id": "lettuce", "required_state": null,      "count": 1, "position_index": 4 },
+        { "ingredient_id": "bread",   "required_state": null,      "count": 1, "position_index": 5 }
+      ]
+    },
+    {
+      "id": "DoubleCheeseburger",
+      "i18n_key": "recipes.double_cheeseburger",
+      "result_icon_path": "sprites/dishes/double_cheeseburger",
+      "allowed_containers": ["plate"],
+      "max_ingredients_total": 6,
+      "fallback_behavior": "block",
+      "strict_order": true,
+      "ingredients": [
+        { "ingredient_id": "bread",  "required_state": null,     "count": 1, "position_index": 0 },
+        { "ingredient_id": "meat",   "required_state": "cooked", "count": 1, "position_index": 1 },
+        { "ingredient_id": "cheese", "required_state": null,     "count": 1, "position_index": 2 },
+        { "ingredient_id": "meat",   "required_state": "cooked", "count": 1, "position_index": 3 },
+        { "ingredient_id": "cheese", "required_state": null,     "count": 1, "position_index": 4 },
+        { "ingredient_id": "bread",  "required_state": null,     "count": 1, "position_index": 5 }
+      ]
+    },
+    {
+      "id": "TowerBurger",
+      "i18n_key": "recipes.tower_burger",
+      "result_icon_path": "sprites/dishes/tower_burger",
+      "allowed_containers": ["plate"],
+      "max_ingredients_total": 7,
+      "fallback_behavior": "block",
+      "strict_order": true,
+      "ingredients": [
+        { "ingredient_id": "bread",  "required_state": null,     "count": 1, "position_index": 0 },
+        { "ingredient_id": "meat",   "required_state": "cooked", "count": 1, "position_index": 1 },
+        { "ingredient_id": "cheese", "required_state": null,     "count": 1, "position_index": 2 },
+        { "ingredient_id": "bread",  "required_state": null,     "count": 1, "position_index": 3 },
+        { "ingredient_id": "meat",   "required_state": "cooked", "count": 1, "position_index": 4 },
+        { "ingredient_id": "cheese", "required_state": null,     "count": 1, "position_index": 5 },
+        { "ingredient_id": "bread",  "required_state": null,     "count": 1, "position_index": 6 }
+      ]
+    }
+  ]
+}

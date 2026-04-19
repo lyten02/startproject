@@ -1,0 +1,6 @@
+{
+  "name": "localization-text",
+  "description": "Runtime i18n: store, loader, signal, reactive text, fonts, config, macro validator.",
+  "sourcePaths": ["src"],
+  "libs": ["heaps:git", "deepnightLibs"]
+}

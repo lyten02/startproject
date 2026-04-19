@@ -1,0 +1,13 @@
+{
+  "caught": "接住了!",
+  "sink_full": "水槽已满",
+  "cell_busy": "格子已占",
+  "returning": "返回中...",
+  "cant_process": "无法处理 — 请丢弃",
+  "stacked_cant_add": "已叠放 — 无法加料",
+  "dish_ready_take": "菜已做好 — 请取",
+  "dish_ready": "{name} 已做好!",
+  "plate_full": "盘子已满",
+  "order_served": "订单已送达!",
+  "order_expired": "顾客离开 — 订单已过期"
+}

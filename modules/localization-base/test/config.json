@@ -1,0 +1,7 @@
+{
+  "name": "localization-base",
+  "dependencies": [],
+  "testPattern": "test/**/*Spec.hx",
+  "testRoot": "test",
+  "provides": ["I18nTestStub"]
+}

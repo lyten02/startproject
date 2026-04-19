@@ -1,0 +1,6 @@
+{
+  "name": "localization-text",
+  "dependencies": ["localization-base"],
+  "testPattern": "test/loc/**/*Spec.hx",
+  "testRoot": "test"
+}

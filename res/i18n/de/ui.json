@@ -1,0 +1,43 @@
+{
+  "pause_label": "PAUSE  (P)",
+  "cookbook_title": "KOCHBUCH  (C zum Schließen)",
+  "recipe_ordered": "[geordnet]",
+  "recipe_any_order": "[beliebige Reihenfolge]",
+  "held": {
+    "ready": "fertig",
+    "plate": "Teller",
+    "plate_dirty": "Teller (schmutzig)",
+    "dish_ready": "{name} fertig",
+    "item": "Gegenstand",
+    "state_label": "Zustand",
+    "freshness_label": "frisch"
+  },
+  "inspector": {
+    "plate_ready": "Teller — {name} fertig",
+    "dirty_suffix": "(schmutzig)",
+    "empty": "leer"
+  },
+  "debug": {
+    "hint": "F2: umschalten  +/-: Tempo"
+  },
+  "orient": {
+    "main": "Gerät drehen",
+    "sub": "Nur Querformat"
+  },
+  "score": {
+    "served": "Serviert: {n}",
+    "failed": "Verpasst: {n}",
+    "money":  "$ {n}"
+  },
+  "stations": {
+    "sink": "Spüle",
+    "stand": "Ablage",
+    "pan": "Pfanne",
+    "pot": "Topf",
+    "board": "Schneidebrett",
+    "plates": "Teller",
+    "prep_table": "Arbeitsplatte",
+    "serve_here": "Ausgabe",
+    "trash": "Mülleimer"
+  }
+}

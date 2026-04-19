@@ -1,0 +1,60 @@
+# Build output
+**/bin/
+build/
+logs/
+**/publish/
+**/dump/
+
+# Heaps resource cache (regenerated automatically)
+**/res/.tmp/
+
+**/dist/
+
+# Samples workspace (local experiments / temporary modules)
+samples/*
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Project-owned Claude skills (not module-linked symlinks) — track explicitly
+.claude/
+!.claude/
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/haxe-modular-tests/
+!.claude/skills/haxe-modular-tests/*
+
+# OS
+**/.DS_Store
+**/Thumbs.db
+
+# Haxe
+**/*.n
+**/*.hl
+**/.haxe-cache/
+
+# C++ build artifacts
+**/*.o
+**/*.obj
+**/*.exe
+**/*.app
+**/*.dSYM/
+
+# Logs
+**/*.log
+**/*.pid
+
+# Python cache/tools
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.pytest_cache/
+
+# Environment (secrets)
+**/.env
+**/.env.local
+**/.env.*

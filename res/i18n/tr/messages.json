@@ -1,0 +1,13 @@
+{
+  "caught": "Yakalandı!",
+  "sink_full": "Lavabo dolu",
+  "cell_busy": "Hücre dolu",
+  "returning": "Geri dönüyor...",
+  "cant_process": "İşlenemez — at gitsin",
+  "stacked_cant_add": "Üst üste — eklenemez",
+  "dish_ready_take": "Yemek hazır — al",
+  "dish_ready": "{name} hazır!",
+  "plate_full": "Tabak dolu",
+  "order_served": "Sipariş servis edildi!",
+  "order_expired": "Müşteri gitti — sipariş süresi doldu"
+}

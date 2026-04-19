@@ -1,0 +1,18 @@
+{
+  "catch": "接住",
+  "pickup": "拾取",
+  "take_top": "取顶层",
+  "take_last": "取最后",
+  "take": "取 {item}",
+  "take_plate": "取盘子",
+  "chop": "切菜",
+  "wash": "清洗",
+  "trash": "丢弃",
+  "scoop": "盛入",
+  "stack": "叠放",
+  "onto_plate": "放到盘上",
+  "place": "放置",
+  "drop_last": "丢最后",
+  "throw": "投掷",
+  "hold_prompt": "长按 {key}"
+}

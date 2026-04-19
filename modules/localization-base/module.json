@@ -1,0 +1,6 @@
+{
+  "name": "localization-base",
+  "description": "Pure contracts (no Heaps/runtime deps). Interfaces + events only.",
+  "sourcePaths": ["src"],
+  "libs": []
+}

@@ -1,0 +1,6 @@
+{
+  "name": "localization-audio-subtitle",
+  "description": "Skeleton for voice-line subtitles. Contracts only in v1 — no dialogues yet.",
+  "sourcePaths": ["src"],
+  "libs": []
+}

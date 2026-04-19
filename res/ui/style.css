@@ -1,0 +1,124 @@
+/* Root container — full-screen flow, corners padding, vertical stack. */
+hud-view {
+	padding: 16;
+	vertical: true;
+	spacing: 0 8;
+}
+
+/* Prominent title label — big MSDF text. */
+hud-view .title {
+	color: #00ff88;
+}
+
+/* Secondary hint shown below the title. */
+hud-view .hint {
+	color: #ffffff;
+}
+
+/* Badge with background pill — used for FPS/coords. */
+hud-view .badge {
+	background: #20202080;
+	padding: 6 10;
+	color: #ffd166;
+}
+
+/* Scene title — centered horizontally by the caller. */
+title-view {
+	padding: 0;
+}
+
+title-view .scene-title {
+	color: #00ff88;
+}
+
+/* Portrait-mode rotation prompt. Caller centers the component on screen. */
+orient-view {
+	vertical: true;
+	spacing: 0 20;
+}
+
+orient-view .orient-main {
+	color: #ffffff;
+}
+
+orient-view .orient-sub {
+	color: #aaaaaa;
+}
+
+/* Debug overlay — compact top-left readout, semi-transparent backdrop. */
+debug-overlay {
+	padding: 6 10;
+	vertical: true;
+	spacing: 0 2;
+	background: #000000a0;
+}
+
+debug-overlay .dbg {
+	color: #b9f7c2;
+}
+
+debug-overlay .dbg-hint {
+	color: #888888;
+}
+
+/* Bottom-right contextual HUD listing available actions. */
+action-hud {
+	padding: 10 14;
+	background: #00000099;
+}
+
+/* Centered transient feedback line (below crosshair). */
+action-bar {
+	padding: 6 14;
+	background: #000000aa;
+}
+
+/* Bottom-left held-item info panel. */
+held-item {
+	padding: 10 14;
+	vertical: true;
+	spacing: 0 4;
+	background: #00000099;
+}
+
+held-item .title {
+	color: #ffd166;
+}
+
+held-item .body {
+	color: #ffffff;
+}
+
+/* Top-center horizontal strip of active customer orders. */
+order-queue {
+	padding: 0;
+}
+
+order-queue flow {
+	layout: horizontal;
+	spacing: 12 0;
+}
+
+/* Single order card: dish name + patience bar. */
+order-card {
+	padding: 8 12;
+	vertical: true;
+	spacing: 0 6;
+	background: #000000aa;
+}
+
+order-card .title {
+	color: #ffd166;
+}
+
+/* Top-right session score overlay. */
+score-hud {
+	padding: 8 12;
+	vertical: true;
+	spacing: 0 2;
+	background: #000000aa;
+}
+
+score-hud .served { color: #7cfc8a; }
+score-hud .failed { color: #ff6060; }
+score-hud .money  { color: #ffd166; }

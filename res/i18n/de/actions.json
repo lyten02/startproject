@@ -1,0 +1,18 @@
+{
+  "catch": "Fangen",
+  "pickup": "Aufheben",
+  "take_top": "Oberen nehmen",
+  "take_last": "Letzten nehmen",
+  "take": "{item} nehmen",
+  "take_plate": "Teller nehmen",
+  "chop": "Schneiden",
+  "wash": "Waschen",
+  "trash": "Wegwerfen",
+  "scoop": "Aufnehmen",
+  "stack": "Stapeln",
+  "onto_plate": "Auf Teller",
+  "place": "Ablegen",
+  "drop_last": "Letzten ablegen",
+  "throw": "Werfen",
+  "hold_prompt": "{key} halten"
+}

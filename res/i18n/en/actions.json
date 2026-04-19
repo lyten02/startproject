@@ -1,0 +1,18 @@
+{
+  "catch": "Catch",
+  "pickup": "Pickup",
+  "take_top": "Take top",
+  "take_last": "Take last",
+  "take": "Take {item}",
+  "take_plate": "Take plate",
+  "chop": "Chop",
+  "wash": "Wash",
+  "trash": "Trash",
+  "scoop": "Scoop",
+  "stack": "Stack",
+  "onto_plate": "Onto plate",
+  "place": "Place",
+  "drop_last": "Drop last",
+  "throw": "Throw",
+  "hold_prompt": "Hold {key}"
+}

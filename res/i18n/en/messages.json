@@ -1,0 +1,13 @@
+{
+  "caught": "Caught!",
+  "sink_full": "Sink full",
+  "cell_busy": "Cell busy",
+  "returning": "Returning...",
+  "cant_process": "Can't process — discard it",
+  "stacked_cant_add": "Stacked — can't add",
+  "dish_ready_take": "Dish ready — take it",
+  "dish_ready": "{name} ready!",
+  "plate_full": "Plate full",
+  "order_served": "Order served!",
+  "order_expired": "Customer left — order expired"
+}

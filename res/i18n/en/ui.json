@@ -1,0 +1,43 @@
+{
+  "pause_label": "PAUSE  (P)",
+  "cookbook_title": "COOKBOOK  (C to close)",
+  "recipe_ordered": "[ordered]",
+  "recipe_any_order": "[any order]",
+  "held": {
+    "ready": "ready",
+    "plate": "Plate",
+    "plate_dirty": "Plate (dirty)",
+    "dish_ready": "{name} ready",
+    "item": "Item",
+    "state_label": "state",
+    "freshness_label": "fresh"
+  },
+  "inspector": {
+    "plate_ready": "Plate — {name} ready",
+    "dirty_suffix": "(dirty)",
+    "empty": "empty"
+  },
+  "debug": {
+    "hint": "F2: toggle  +/-: speed"
+  },
+  "orient": {
+    "main": "Rotate your device",
+    "sub": "Landscape mode only"
+  },
+  "score": {
+    "served": "Served: {n}",
+    "failed": "Failed: {n}",
+    "money":  "$ {n}"
+  },
+  "stations": {
+    "sink": "Sink",
+    "stand": "Stand",
+    "pan": "Pan",
+    "pot": "Pot",
+    "board": "Board",
+    "plates": "Plates",
+    "prep_table": "Prep Table",
+    "serve_here": "Serve Here",
+    "trash": "Trash"
+  }
+}

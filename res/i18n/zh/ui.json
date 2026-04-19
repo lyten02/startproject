@@ -1,0 +1,43 @@
+{
+  "pause_label": "暂停  (P)",
+  "cookbook_title": "菜谱  (C 关闭)",
+  "recipe_ordered": "[按顺序]",
+  "recipe_any_order": "[任意顺序]",
+  "held": {
+    "ready": "完成",
+    "plate": "盘子",
+    "plate_dirty": "盘子（脏）",
+    "dish_ready": "{name} 完成",
+    "item": "物品",
+    "state_label": "状态",
+    "freshness_label": "新鲜度"
+  },
+  "inspector": {
+    "plate_ready": "盘子 — {name} 完成",
+    "dirty_suffix": "（脏）",
+    "empty": "空"
+  },
+  "debug": {
+    "hint": "F2: 切换  +/-: 速度"
+  },
+  "orient": {
+    "main": "请旋转设备",
+    "sub": "仅横屏"
+  },
+  "score": {
+    "served": "已完成: {n}",
+    "failed": "失败: {n}",
+    "money":  "$ {n}"
+  },
+  "stations": {
+    "sink": "水槽",
+    "stand": "放置台",
+    "pan": "平底锅",
+    "pot": "锅",
+    "board": "砧板",
+    "plates": "盘子",
+    "prep_table": "备菜台",
+    "serve_here": "出餐口",
+    "trash": "垃圾桶"
+  }
+}

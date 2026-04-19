@@ -1,0 +1,13 @@
+{
+  "caught": "Gefangen!",
+  "sink_full": "Spüle voll",
+  "cell_busy": "Feld belegt",
+  "returning": "Kehrt zurück...",
+  "cant_process": "Nicht verarbeitbar — entsorgen",
+  "stacked_cant_add": "Gestapelt — nicht hinzufügbar",
+  "dish_ready_take": "Gericht fertig — nehmen",
+  "dish_ready": "{name} fertig!",
+  "plate_full": "Teller voll",
+  "order_served": "Bestellung serviert!",
+  "order_expired": "Gast ist weg — Bestellung abgelaufen"
+}
