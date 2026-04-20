@@ -6,6 +6,7 @@
 [subrepo]
 	remote = https://github.com/Lyten02/localization-text.git
 	branch = main
-	commit = 
+	commit = da17e8ff07f825afe4c0fb18a805cfb9790883b5
 	method = merge
 	cmdver = 0.4.9
+	parent = 381165e8cf96a720ba8332735e56e18f5c93f6b3
