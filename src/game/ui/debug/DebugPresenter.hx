@@ -2,7 +2,6 @@ package game.ui.debug;
 
 import game.core.TimeScale;
 import game.ecs.World;
-import game.ecs.components.Facing;
 import game.ecs.components.PlayerControlled;
 import game.ecs.components.Transform;
 import game.render.Camera;
@@ -63,8 +62,6 @@ class DebugPresenter implements IPresenter {
 				model.playerPx = '$px,$py';
 				model.playerCell = '${Std.int(tr.pos.x / CELL)},${Std.int(tr.pos.y / CELL)}';
 			}
-			var fc = players[0].get(Facing);
-			if (fc != null) model.facing = facingLabel(fc.dx, fc.dy);
 		}
 
 		model.heapMB = readHeapMB();
@@ -91,14 +88,6 @@ class DebugPresenter implements IPresenter {
 	}
 
 	public function dispose():Void {}
-
-	static function facingLabel(dx:Int, dy:Int):String {
-		if (dx > 0) return ">";
-		if (dx < 0) return "<";
-		if (dy > 0) return "v";
-		if (dy < 0) return "^";
-		return ".";
-	}
 
 	static function readHeapMB():String {
 		#if js

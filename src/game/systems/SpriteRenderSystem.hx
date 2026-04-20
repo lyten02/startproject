@@ -1,9 +1,6 @@
 package game.systems;
 
-import game.core.ThrowPhysics;
 import game.ecs.World;
-import game.ecs.components.Collider;
-import game.ecs.components.InFlight;
 import game.ecs.components.SpriteRender;
 import game.ecs.components.Transform;
 
@@ -31,14 +28,9 @@ class SpriteRenderSystem implements ISystem {
 			}
 			var tile = sr.display.tile;
 			var tw = tile != null && tile.width > 0 ? tile.width : sr.size;
-			var fl  = e.get(InFlight);
-			var zScl = fl != null ? ThrowPhysics.scaleForZ(fl.z) : 1;
-			var co  = e.get(Collider);
-			var halfDx = co != null ? co.w * (zScl - 1) * 0.5 : 0;
-			var halfDy = co != null ? co.h * (zScl - 1) * 0.5 : 0;
-			sr.display.x = tr.pos.x - halfDx;
-			sr.display.y = tr.pos.y - halfDy;
-			sr.display.setScale(sr.size / tw * zScl);
+			sr.display.x = tr.pos.x;
+			sr.display.y = tr.pos.y;
+			sr.display.setScale(sr.size / tw);
 
 			var r = ((sr.tint >> 16) & 0xFF) / 255;
 			var g = ((sr.tint >> 8)  & 0xFF) / 255;

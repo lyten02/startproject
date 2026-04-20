@@ -20,10 +20,19 @@ PROFILE="$PROJECT_ROOT/build/profiles/main.json"
 log() { printf '\033[36m[%s]\033[0m %s\n' "$MODULE_NAME" "$*"; }
 ok()  { printf '\033[32m[ok]\033[0m %s\n' "$*"; }
 
+# Portable Python (macOS ships `python3` only; MSYS/Linux may ship `python`).
+PYTHON="$(command -v python3 || command -v python || true)"
+[[ -n "$PYTHON" ]] || { echo "[error] python not found in PATH"; exit 1; }
+
+# Portable relative path (GNU `realpath --relative-to` is missing on macOS/BSD).
+rel_path() {
+  "$PYTHON" -c 'import os,sys; print(os.path.relpath(sys.argv[1], sys.argv[2]))' "$1" "$2"
+}
+
 # --- 1. PROFILE -------------------------------------------------------------
 
 log "stage 1: register in build profile"
-python - "$PROFILE" "$MODULE_REL/src" <<'PY'
+"$PYTHON" - "$PROFILE" "$MODULE_REL/src" <<'PY'
 import json, pathlib, sys
 path, entry = pathlib.Path(sys.argv[1]), sys.argv[2]
 if not path.exists():
@@ -52,7 +61,7 @@ if [[ -d "$SRC" ]]; then
     name="$(basename "$dir")"
     link_path="$DEST/$name"
     [[ -L "$link_path" || -e "$link_path" ]] && rm -rf "$link_path"
-    rel_target=$(realpath --relative-to="$DEST" "$dir")
+    rel_target=$(rel_path "$dir" "$DEST")
     ln -s "$rel_target" "$link_path"
     ok "linked skill $name"
     linked=$((linked + 1))

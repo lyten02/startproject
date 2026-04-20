@@ -10,18 +10,7 @@ enum abstract GameAction(Int) to Int {
 	var MoveUp;
 	var MoveDown;
 	var ToggleDebug;
-	var Pause;
-	var Cookbook;
-	var Interact;
-	var DebugStateRaw;
-	var DebugStateChopped;
-	var DebugStateCooked;
-	var DebugStateBurnt;
-	var DebugStateSpoiled;
-	var DebugStateBoiled;
-	var DebugToggleDirty;
 	var DebugSpeedUp;
 	var DebugSpeedDown;
 	var DebugResetZoom;
-	var DebugSpawnDish;
 }

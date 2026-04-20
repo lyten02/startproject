@@ -30,22 +30,8 @@ class InputBindings {
 		controller.bindPad(GameAction.MoveUp,    PadButton.DPAD_UP);
 		controller.bindPad(GameAction.MoveDown,  PadButton.DPAD_DOWN);
 
-		// Debug overlay toggle (F3 classic; also backtick for laptops without F-keys).
+		// Debug overlay toggle (F2; also backtick for laptops without F-keys).
 		controller.bindKeyboard(GameAction.ToggleDebug, [Key.F2, Key.QWERTY_TILDE]);
-		controller.bindKeyboard(GameAction.Pause, [Key.P]);
-		controller.bindKeyboard(GameAction.Cookbook, [Key.C]);
-
-		// Interact: pick up / place (tap) or throw (hold + release).
-		controller.bindKeyboard(GameAction.Interact, [Key.E, Key.SPACE]);
-
-		// Debug ingredient state overrides (1..5 on the number row).
-		controller.bindKeyboard(GameAction.DebugStateRaw,     [Key.NUMBER_1]);
-		controller.bindKeyboard(GameAction.DebugStateChopped, [Key.NUMBER_2]);
-		controller.bindKeyboard(GameAction.DebugStateCooked,  [Key.NUMBER_3]);
-		controller.bindKeyboard(GameAction.DebugStateBurnt,   [Key.NUMBER_4]);
-		controller.bindKeyboard(GameAction.DebugStateSpoiled, [Key.NUMBER_5]);
-		controller.bindKeyboard(GameAction.DebugToggleDirty,  [Key.NUMBER_6]);
-		controller.bindKeyboard(GameAction.DebugStateBoiled,  [Key.NUMBER_7]);
 
 		// Debug time scale (+ / -). Covers both main-row and numpad.
 		controller.bindKeyboard(GameAction.DebugSpeedUp,   [Key.QWERTY_EQUALS, Key.NUMPAD_ADD]);
@@ -53,9 +39,6 @@ class InputBindings {
 
 		// Debug camera zoom reset (wheel delta is handled directly via hxd.Event in GameplayState).
 		controller.bindKeyboard(GameAction.DebugResetZoom, [Key.HOME]);
-
-		// Debug: spawn a ready plate of the last-queued order directly into hands.
-		controller.bindKeyboard(GameAction.DebugSpawnDish, [Key.B]);
 
 		access = controller.createAccess();
 	}
@@ -77,11 +60,6 @@ class InputBindings {
 
 	public inline function wasPressed(action:GameAction):Bool {
 		return access.isPressed(action);
-	}
-
-	/** Raw shift key — used only by InteractSystem for chord input (Shift+E). */
-	public inline function shiftDown():Bool {
-		return Key.isDown(Key.SHIFT);
 	}
 
 	/** Combined horizontal movement vector derived from discrete left/right actions. */

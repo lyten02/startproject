@@ -1,7 +1,6 @@
 package game.ui.debug;
 
 import game.ui.mvp.IView;
-import loc.text.I18n;
 
 /** Compact top-left debug readout. Single vertical stack of thin monospace-ish lines. */
 @:uiComp("debug-overlay")
@@ -16,13 +15,12 @@ class DebugView extends h2d.Flow implements h2d.domkit.Object implements IView<D
 		<text public id="lnBoot"   class="dbg" text={""}/>
 		<text public id="lnSpeed"  class="dbg" text={""}/>
 		<text public id="lnZoom"   class="dbg" text={""}/>
-		<text public id="lnHint"   class="dbg-hint" text={""}/>
 	</debug-overlay>;
 
 	public function new(font:h2d.Font, ?parent) {
 		super(parent);
 		initComponent();
-		for (t in [lnPerf, lnCpu, lnGpu, lnPlayer, lnWorld, lnMem, lnBoot, lnSpeed, lnZoom, lnHint]) {
+		for (t in [lnPerf, lnCpu, lnGpu, lnPlayer, lnWorld, lnMem, lnBoot, lnSpeed, lnZoom]) {
 			t.font = font;
 			t.smooth = true;
 		}
@@ -32,12 +30,11 @@ class DebugView extends h2d.Flow implements h2d.domkit.Object implements IView<D
 		lnPerf.text   = 'FPS ${m.fps}  frame ${Std.int(m.frameMs * 100) / 100}ms';
 		lnCpu.text    = 'cpu ${m.cpuPct}% (js/frame)';
 		lnGpu.text    = 'gpu calls ${m.drawCalls}  tris ${m.triangles}';
-		lnPlayer.text = 'P ${m.playerPx}  cell ${m.playerCell}  look ${m.facing}';
+		lnPlayer.text = 'P ${m.playerPx}  cell ${m.playerCell}';
 		lnWorld.text  = 'entities ${m.entities}';
 		lnMem.text    = 'heap ${m.heapMB}';
 		lnBoot.text   = 'boot ${m.startupMs}ms  up ${m.uptimeSec}s';
 		lnSpeed.text  = 'speed ${m.speed}';
 		lnZoom.text   = 'zoom ${m.zoom}';
-		lnHint.text   = I18n.t("ui.debug.hint");
 	}
 }

@@ -4,6 +4,8 @@ build/
 logs/
 **/publish/
 **/dump/
+.gd-site/
+modules/status.md
 
 # Heaps resource cache (regenerated automatically)
 **/res/.tmp/

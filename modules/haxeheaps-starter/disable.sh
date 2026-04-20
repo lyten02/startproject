@@ -26,6 +26,10 @@ log()  { printf '\033[36m[%s]\033[0m %s\n' "$MODULE_NAME" "$*"; }
 ok()   { printf '\033[32m[ok]\033[0m %s\n' "$*"; }
 warn() { printf '\033[33m[warn]\033[0m %s\n' "$*"; }
 
+# Portable Python (macOS ships `python3` only; MSYS/Linux may ship `python`).
+PYTHON="$(command -v python3 || command -v python || true)"
+[[ -n "$PYTHON" ]] || { warn "python not found in PATH"; exit 1; }
+
 # --- 1. REMOVE SYMLINKS -----------------------------------------------------
 
 unlink_path() {
@@ -47,7 +51,7 @@ unlink_path ".claude/scripts"
 # --- 2. PROFILE (remove sourcePath) -----------------------------------------
 
 log "stage 2: remove from build profile"
-python - "$PROFILE" "$MODULE_REL/src" <<'PY'
+"$PYTHON" - "$PROFILE" "$MODULE_REL/src" <<'PY'
 import json, pathlib, sys
 path, entry = pathlib.Path(sys.argv[1]), sys.argv[2]
 if not path.exists():

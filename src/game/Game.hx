@@ -39,17 +39,10 @@ class Game implements IGame {
 
 	public function init(app:hxd.App):Void {
 		var cfg = ConfigManager.load();
-		trace('[i18n] config language = "${cfg.language}"');
 		I18n.init(LocaleId.EN);
 		var requested = LocaleId.parse(cfg.language);
-		trace('[i18n] parsed requested = "${(requested : String)}", base = "${(LocaleId.EN : String)}"');
 		if ((requested : String) != (LocaleId.EN : String)) {
 			I18n.setLanguage(requested);
-			var loaded = I18n.store_().countOf(requested);
-			trace('[i18n] after setLanguage: loaded $loaded entries for ${(requested : String)}, current = "${(I18n.current() : String)}"');
-			trace('[i18n] probe ui.pause_label = "${I18n.t("ui.pause_label")}"');
-			trace('[i18n] probe actions.pickup = "${I18n.t("actions.pickup")}"');
-			trace('[i18n] probe recipes.sandwich = "${I18n.t("recipes.sandwich")}"');
 		}
 
 		this.app    = app;

@@ -1,4 +1,4 @@
-# {{PROJECT_NAME}} — project-specific guide
+# Test1234 — project-specific guide
 
 Extends the generic rules from the root `CLAUDE.md` (symlink to
 `modules/haxeheaps-starter/CLAUDE.md`).
@@ -9,19 +9,16 @@ Component-based ECS + separate-axis AABB + MVP UI. One directory = one concern.
 
 ```
 src/game/
-├── core/          pure math/primitives (Vec2, AABB, Grid)          [testable]
+├── core/          pure math/primitives (Vec2, AABB, Grid, TimeScale)  [testable]
 ├── ecs/           Entity + World + Component marker
-│   └── components/ Transform, Velocity, Collider, ShapeRender, PlayerControlled,
-│                   SpriteRender, Ingredient, Cookable, Plate, Station, ...
-├── systems/       ISystem impls: Input → Collision → IngredientState → Render [testable]
+│   └── components/ Transform, Velocity, Collider, ShapeRender,
+│                   SpriteRender, PlayerControlled
+├── systems/       ISystem impls: Input → Collision → Render           [testable]
 ├── render/        Heaps-side helpers: ShapeFactory, SceneScaler, Camera
-├── map/           JSON parser + EntityFactory + DishFactory → World           [testable]
-├── recipes/       IngredientCatalog, IngredientMeta, recipe matcher            [testable]
+├── map/           JSON parser + EntityFactory → World                  [testable]
 ├── states/        IGameState lifecycle (GameplayState, GameplaySystems)
 ├── ui/            MVP components
 │   ├── mvp/       IView, IPresenter interfaces
-│   ├── hud/       HudModel + HudView (Domkit) + HudPresenter
-│   ├── title/     TitleModel + TitleView + TitlePresenter
 │   ├── orient/    OrientModel + OrientView + OrientPresenter
 │   └── debug/     DebugModel + DebugView + DebugPresenter
 ├── input/         GameAction enum + InputBindings (deepnightLibs)
@@ -35,9 +32,7 @@ InputBindings → InputSystem → Velocity
                                   ↓
                           CollisionSystem (AABB slide)
                                   ↓
-                          IngredientStateSystem (cooking/chopping)
-                                  ↓
-                          SpriteRenderSystem + PlateStackRenderSystem → h2d scene
+                          RenderSystem + SpriteRenderSystem → h2d scene
                                   ↓
                           Presenters → Models → Views.render()
 ```
@@ -51,45 +46,36 @@ InputBindings → InputSystem → Velocity
 
 ## Map JSON format
 
-`res/maps/level1.json` — grid coords (×32 px). One `player`, N obstacles, N
-stations, N ingredients.
+`res/maps/level1.json` — grid coords (×32 px). One `player`, N obstacles.
 
 ```json
 {
   "width": 60, "height": 34,
   "entities": [
-    { "type": "player",   "x": 6,  "y": 16 },
-    { "type": "circle",   "x": 18, "y": 10, "r": 2 },
-    { "type": "triangle", "x": 40, "y": 8,  "w": 4, "h": 4 },
-    { "type": "station",  "x": 20, "y": 12, "station": "board" },
-    { "type": "ingredient","x": 22, "y": 12, "ingredient": "tomato" }
+    { "type": "player",   "x": 4,  "y": 16 },
+    { "type": "rect",     "x": 10, "y": 10, "w": 4, "h": 2 },
+    { "type": "circle",   "x": 20, "y": 12, "r": 2 },
+    { "type": "triangle", "x": 30, "y": 8,  "w": 3, "h": 3 },
+    { "type": "diamond",  "x": 40, "y": 15, "w": 3, "h": 3 },
+    { "type": "hexagon",  "x": 50, "y": 10, "r": 2 }
   ]
 }
 ```
 
-Entity types: `player | rect | circle | triangle | diamond | hexagon | station | ingredient | dish`.
+Entity types: `player | rect | circle | triangle | diamond | hexagon`.
 
 - `w/h` for rect/tri/diamond (grid cells), `r` for circle/hex (cells).
-- Stations: `board | pan | pot | sink | trash`.
-- Ingredients: see `res/data/ingredients.json` (`tomato`, `cheese`, `lettuce`,
-  `onion`, `cucumber`, `meat`, `bread`) with states `raw | chopped | cooked |
-  boiled | burnt | spoiled`.
 
 ## Project-specific rules
 
-- **No hardcoded level data.** Obstacles/stations/ingredients go into
-  `res/maps/*.json`, never into `.hx`. Adding a new shape = EntityFactory
-  branch + ShapeKind + test.
-- **Recipes live in `res/data/recipes.json`**, parsed through typedef in
-  `src/game/recipes/`. Matching logic is pure (testable in `test/game/recipes/`).
-- **Sprites** — all ingredient/station art in `res/sprites/`. File names match
-  entity ids: `tomato_chopped.png`, `onion_burnt.png`, `station/board.png`, etc.
+- **No hardcoded level data.** Obstacles go into `res/maps/*.json`, never into `.hx`.
+  Adding a new shape = EntityFactory branch + ShapeKind + test.
 
 ## When adding a new feature
 
 1. Read affected files fully before editing.
-2. Add/update pure logic in `core/`, `ecs/`, `map/`, `systems/`, `recipes/`.
+2. Add/update pure logic in `core/`, `ecs/`, `map/`, `systems/`.
 3. Add utest spec in `test/` mirroring source layout.
 4. Wire into `GameplaySystems` if it's a new System.
-5. If UI-visible — update or add HUD/Debug presenter, not the view directly.
+5. If UI-visible — update or add Debug presenter, not the view directly.
 6. Run `python build.py lint && python build.py test` — both must be green.
