@@ -6,6 +6,7 @@
 [subrepo]
 	remote = https://github.com/Lyten02/localization-base.git
 	branch = main
-	commit = 
+	commit = 421e584f4a9e2fab30ea2cd1870723c5c660a2f3
 	method = merge
 	cmdver = 0.4.9
+	parent = bc2b97c8f3aa7bfeb7fd7ef8c857c0a7273f6d42
