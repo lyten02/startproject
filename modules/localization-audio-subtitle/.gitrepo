@@ -6,6 +6,7 @@
 [subrepo]
 	remote = https://github.com/Lyten02/localization-audio-subtitle.git
 	branch = main
-	commit = 
+	commit = 7796815c7529f1479ba37e0ddd7e374e2351630f
 	method = merge
 	cmdver = 0.4.9
+	parent = fa053adb92644aaba9969a964306e0fd3637678d
