@@ -5,9 +5,9 @@
 
 ## TL;DR
 
-Each `modules/<name>/` directory is a **git subtree** that ships `src/`,
-optionally `test/`, `claude/skills/`, `module.json`, and three lifecycle
-scripts: `enable.sh`, `disable.sh`, `delete.sh`.
+Each `modules/<name>/` directory is a **git-subrepo** that ships `src/`,
+optionally `test/`, `claude/skills/`, `module.json`, `.gitrepo` (subrepo
+metadata), and three lifecycle scripts: `enable.sh`, `disable.sh`, `delete.sh`.
 
 ## Lifecycle semantics
 
@@ -31,7 +31,7 @@ scripts: `enable.sh`, `disable.sh`, `delete.sh`.
 - **`delete.sh`** — destructive.
   - Runs `disable.sh`, then `rm -rf modules/<name>/`.
   - Prompts for the module name as confirmation.
-  - Uncommitted/unpushed subtree changes are lost.
+  - Uncommitted/unpushed subrepo changes are lost.
 
 ## Where things live (don't confuse)
 
@@ -51,14 +51,14 @@ scripts: `enable.sh`, `disable.sh`, `delete.sh`.
 ## Rules when working inside `modules/`
 
 1. **Don't bypass the lifecycle scripts.** Adding a module means:
-   `git subtree add --prefix=modules/<name> <url> main --squash` + `enable.sh`.
+   `git subrepo clone <url> modules/<name>` + `enable.sh`.
    Direct manual edits to `main.json` are acceptable only as a last-resort
    override — `enable.sh` is idempotent and safe to re-run.
 
 2. **Module edits are upstreamable.** If you change a file inside
-   `modules/<name>/`, assume it will eventually be `git subtree push`'d to the
-   module's upstream repo. Don't put project-specific hacks there — those go
-   under `src/` of the main project.
+   `modules/<name>/`, assume it will eventually be `git subrepo push modules/<name>`'d
+   to the module's upstream repo. Don't put project-specific hacks there —
+   those go under `src/` of the main project.
 
 3. **Skills and hooks live inside the owning module**, not in the project root.
    `haxeheaps-starter` owns the generic hooks + skills; a feature module owns
@@ -85,4 +85,4 @@ When you create a new module:
 - [ ] `test/` with utest specs (if the module has pure-logic tests).
 - [ ] `claude/skills/<skill-name>/SKILL.md` if the module ships a Claude skill.
 - [ ] Push to upstream via
-      `git subtree push --prefix=modules/<name> <url> main`.
+      `git subrepo push modules/<name>` (remote URL is stored in `.gitrepo`).
