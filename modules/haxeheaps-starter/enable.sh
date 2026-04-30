@@ -3,7 +3,9 @@
 #
 # Four stages:
 #   1. SYMLINKS  — infra files that must stay in sync with the module.
-#      (CLAUDE.md, .claude/settings.json, .claude/scripts)
+#      (.claude/settings.json, .claude/scripts)
+#      NOTE: root CLAUDE.md is no longer symlinked — it's a real file with
+#      an `@modules/haxeheaps-starter/CLAUDE.md` import (cross-platform).
 #   2. CLONES    — template files copied into the project on first activation.
 #      User owns them afterward; re-enable won't overwrite.
 #      (.gitignore, public/index.html, .github/copilot-instructions.md, README.md)
@@ -50,8 +52,9 @@ link() {
   ok "linked $link_rel -> $MODULE_REL/$target_rel"
 }
 
+# NOTE: Stage 1 symlinks below are not Windows-safe yet (tracked in Noreline
+# plan #6 — declarative module.json runner with platform-aware copy/junction).
 log "stage 1: symlinks"
-link "CLAUDE.md"             "CLAUDE.md"
 link ".claude/settings.json" ".claude/settings.json"
 link "claude/scripts"        ".claude/scripts"
 
