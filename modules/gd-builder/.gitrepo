@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/Lyten02/gd-builder.git
 	branch = main
-	commit = d21b59f470cbb61759b725ba97553a5d0ccc6bcd
+	commit = aa7ad730fddcf279ca350d993c46a0245e3741de
 	method = merge
 	cmdver = 0.4.9
-	parent = 13e423efb3582df76670b186ef02697f7a29ab24
+	parent = db4f5bac19ebdba9ffa2536b248d24b91eb7060e
