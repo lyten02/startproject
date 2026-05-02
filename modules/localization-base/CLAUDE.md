@@ -35,4 +35,6 @@ src/loc/base/
 ## Skill
 
 Claude-skill для этого модуля — `claude/skills/localization-base/SKILL.md`.
-Подключается командой: `bash modules/localization-base/enable.sh`.
+Активируется host-runner'ом (Noreline UI → project Modules tab → Enable),
+который читает `module.json.lifecycle.skillsDir` и копирует skill в
+`.claude/skills/localization-base__localization-base/`.

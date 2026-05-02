@@ -1,6 +1,11 @@
 {
   "name": "localization-base",
+  "version": "0.1.0",
   "description": "Pure contracts (no Heaps/runtime deps). Interfaces + events only.",
-  "sourcePaths": ["src"],
-  "libs": []
+  "dependencies": [],
+  "libs": [],
+  "lifecycle": {
+    "sourcePaths": ["src"],
+    "skillsDir": "claude/skills"
+  }
 }

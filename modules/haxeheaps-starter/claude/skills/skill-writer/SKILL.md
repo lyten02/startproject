@@ -1,6 +1,6 @@
 ---
 name: skill-writer
-description: Author new Claude Code skills for haxeheaps-based projects. Use when the user asks to "write a skill", "create a SKILL.md", "add a Claude skill for module X", or needs guidance on the official SKILL.md format (frontmatter, discovery, symlink workflow). Includes a ready-to-copy template and a review checklist. Do NOT use for generic Claude Code questions — use the claude-code-guide agent instead.
+description: Author new Claude Code skills for haxeheaps-based projects. Use when the user asks to "write a skill", "create a SKILL.md", "add a Claude skill for module X", or needs guidance on the official SKILL.md format (frontmatter, discovery, declarative module.json lifecycle). Includes a ready-to-copy template and a review checklist. Do NOT use for generic Claude Code questions — use the claude-code-guide agent instead.
 ---
 
 # skill-writer
@@ -34,14 +34,27 @@ description: <what it does + when it activates; verbs front-loaded; ≤1536 char
 ```
 modules/<module>/
 ├── CLAUDE.md                            правила модуля
-├── enable.sh                            symlink-скрипт (шаблон одинаковый везде)
+├── module.json                          declarative lifecycle (включая skillsDir)
 └── claude/skills/<skill-name>/
     ├── SKILL.md                         frontmatter + тело
     ├── template.md        (optional)    supporting file
     └── checklist.md       (optional)    supporting file
 ```
 
-После создания skill-а: `bash modules/<module>/enable.sh` — симлинкует в `<project>/.claude/skills/`, и в новой сессии Claude skill становится видимым в `/skills`.
+`module.json` модуля должен включать:
+
+```json
+{
+  "lifecycle": {
+    "skillsDir": "claude/skills"
+  }
+}
+```
+
+Host-runner (Noreline UI → project Modules tab → Enable) копирует каждую
+подпапку `<module>/claude/skills/<skill-name>/` в `.claude/skills/<module>__<skill-name>/`
+с **namespace-префиксом** имени модуля, чтобы skills из разных модулей не
+конфликтовали. В новой сессии Claude skill становится видимым в `/skills`.
 
 ## Шаги написания skill-а
 
@@ -50,8 +63,8 @@ modules/<module>/
 3. Перечислить в теле: ключевые файлы, публичное API (только то, что импортируется снаружи), типовые задачи ("как добавить X"), анти-паттерны.
 4. Добавить supporting files (template, примеры), если они экономят модели усилия.
 5. Прогнать по `checklist.md` — проверить длину, kebab-case, отсутствие выдуманных полей.
-6. `bash modules/<module>/enable.sh`.
-7. В новой сессии: `/skills` — увидеть свой skill; описать сценарий, на который он должен реагировать — убедиться, что активируется.
+6. Активировать модуль через host-runner (Noreline UI → Enable). Без активации skill не появляется в `.claude/skills/`.
+7. В новой сессии: `/skills` — увидеть свой skill (имя будет `<module>__<skill-name>`); описать сценарий, на который он должен реагировать — убедиться, что активируется.
 
 ## Когда skill НЕ нужен
 
@@ -63,8 +76,8 @@ modules/<module>/
 
 - `description` содержит только "what", без "when". Модель не активирует.
 - `name` не совпадает с именем директории → skill не загружается.
-- Создан skill, но `enable.sh` не запущен → `.claude/skills/<name>/` нет → skill невидим.
-- Симлинк на Windows без `MSYS=winsymlinks:nativestrict` → `ln -s` делает копию; при обновлении skill-а копия не обновляется.
+- Skill добавлен, но `module.json.lifecycle.skillsDir` не объявлен → host-runner не знает, что копировать.
+- Модуль не enabled через host-runner → `.claude/skills/<module>__<skill>/` нет → skill невидим.
 - В теле skill-а — длинная проза. Модель читает лучше коротких списков и блоков кода.
 
 ## Ссылки

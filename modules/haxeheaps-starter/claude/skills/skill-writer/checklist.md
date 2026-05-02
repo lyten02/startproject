@@ -27,18 +27,17 @@
 ## Путь и интеграция
 
 - [ ] Файлы в `modules/<module>/claude/skills/<name>/`.
-- [ ] `modules/<module>/enable.sh` существует (скопирован из шаблона).
+- [ ] `modules/<module>/module.json` существует и содержит `"lifecycle": { "skillsDir": "claude/skills" }`.
 - [ ] `modules/<module>/CLAUDE.md` существует и упоминает этот skill.
-- [ ] Запуск `bash modules/<module>/enable.sh` кладёт симлинк в `<project>/.claude/skills/<name>/`.
+- [ ] Активация модуля через host-runner кладёт skill в `<project>/.claude/skills/<module>__<name>/` (namespaced).
 
 ## Валидация активации
 
-- [ ] В новой сессии Claude Code в корне проекта `/skills` показывает skill.
+- [ ] В новой сессии Claude Code в корне проекта `/skills` показывает skill (имя `<module>__<name>`).
 - [ ] Запрос на сценарий, описанный в `description`, — активирует skill.
 - [ ] Запрос на анти-сценарий — skill НЕ активируется ложно.
 
-## Гит и Windows
+## Гит
 
-- [ ] `.claude/skills/` игнорируется gitignore (симлинки не коммитим).
-- [ ] `enable.sh` устанавливает `MSYS=winsymlinks:nativestrict` (Windows Git Bash).
-- [ ] Симлинк на директорию, не на файл (junctions на Windows поддерживают только директории).
+- [ ] `.claude/skills/` игнорируется gitignore (host-runner-managed артефакты не коммитим).
+- [ ] Никаких `enable.sh` / `disable.sh` / `delete.sh` — lifecycle полностью в `module.json`.

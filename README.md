@@ -1,8 +1,9 @@
 # StartProject — Haxe/Heaps starter with module system
 
-> Managed by [GD-Site](https://github.com/Lyten02/GD-Site). Every module under
-> `modules/` is self-contained: its lifecycle is controlled by three scripts
-> shipped with the module itself — `enable.sh`, `disable.sh`, `delete.sh`.
+> Managed by [Noreline](https://github.com/Lyten02/Noreline). Every module under
+> `modules/` is self-contained: its lifecycle is described declaratively in a
+> `module.json` shipped with the module. A host runner (Noreline UI) executes
+> the operations cross-platform — no shell scripts, no symlink hacks.
 
 ## What's inside
 
@@ -10,14 +11,13 @@
 - **`res/`** — resources (textures, audio, locale files, maps).
 - **`test/`** — utest specs for pure-logic classes.
 - **`build/profiles/main.json`** — single source of truth for which module
-  source directories are compiled (updated by `enable.sh` / `disable.sh`).
-- **`modules/`** — git subtree'd modules. Each provides:
-  - `src/` — the module's Haxe code.
-  - `enable.sh`, `disable.sh`, `delete.sh` — lifecycle scripts.
+  source directories are compiled. Updated by the host runner when modules
+  are enabled / disabled.
+- **`modules/`** — git-subrepo'd modules. Each provides:
+  - `src/` — the module's Haxe code (when applicable).
+  - `module.json` — declarative lifecycle metadata (links, clones,
+    sourcePaths, skillsDir, dependencies).
   - Optionally: `claude/skills/`, `test/`, `CLAUDE.md`.
-- **`modules/status.md`** — per-project record of which modules are enabled /
-  disabled. Written by GD-Site when the project is created and updated when
-  you toggle modules in the UI.
 
 ## Shipped modules
 
@@ -37,28 +37,60 @@ python modules/gd-builder/build.py run debug web
 python modules/gd-builder/build.py watch debug web
 ```
 
-## Adding a new module (from GD-Site UI)
+## Module lifecycle (declarative)
 
-Click the project title (the `🎮 ProjectName` header on the project page),
-then paste a module repo URL and press **Add**. GD-Site runs
-`git subtree add --prefix=modules/<name> <url> <branch> --squash`,
-executes the module's `enable.sh`, and updates `modules/status.md`.
+Each module's `module.json` declares the operations its host should perform on
+**enable** (and reverse on **disable**). Schema v1:
 
-## Adding a new module (manually)
+```json
+{
+  "name": "<module-name>",
+  "version": "0.1.0",
+  "description": "...",
+  "dependencies": ["<other-module-name>"],
+  "lifecycle": {
+    "links":   [ { "from": "<module-rel>", "to": "<project-rel>" } ],
+    "clones":  [ { "from": "<module-rel>", "to": "<project-rel>", "ifMissing": true } ],
+    "sourcePaths": ["src"],
+    "skillsDir": "claude/skills"
+  }
+}
+```
+
+Every field except `name` is optional. The host runner:
+
+- **`links`** — symlink (or junction on Windows / fallback copy) from module
+  path into the project tree.
+- **`clones`** — one-shot copy with `ifMissing` semantics (never overwrites).
+  Project owns the result; not removed on disable.
+- **`sourcePaths`** — append to `build/profiles/main.json.sourcePaths` so the
+  Haxe compiler picks up the module's source.
+- **`skillsDir`** — copy each subdirectory of `<module>/<skillsDir>/` into
+  `.claude/skills/<module>__<skill>/` (namespaced to avoid conflicts).
+
+**Disable** reverses links, sourcePaths, and skills (clones stay — project
+owns them). **Delete** = disable + remove the module directory entirely.
+
+## Adding a new module
+
+Through the Noreline UI on the project's Modules tab, or manually:
 
 ```bash
-git subtree add --prefix=modules/<name> https://github.com/owner/<name>.git main --squash
-bash modules/<name>/enable.sh
+git subrepo clone https://github.com/owner/<name>.git modules/<name>
+# Then activate via the host runner.
+```
+
+A new module just needs a `module.json` describing its lifecycle. No shell
+scripts to write.
+
+## Pulling module updates
+
+```bash
+git subrepo pull modules/<name>
 ```
 
 ## Pushing module changes upstream
 
 ```bash
-git subtree push --prefix=modules/<name> https://github.com/owner/<name>.git main
-```
-
-## Pulling module updates
-
-```bash
-git subtree pull --prefix=modules/<name> https://github.com/owner/<name>.git main --squash
+git subrepo push modules/<name>
 ```

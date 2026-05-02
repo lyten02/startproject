@@ -1,0 +1,20 @@
+{
+  "name": "haxeheaps-starter",
+  "version": "0.1.0",
+  "description": "Haxe/Heaps infra: AppBase/IGame/IModule, Claude hooks, settings, generic skills, project-template clones.",
+  "dependencies": [],
+  "lifecycle": {
+    "links": [
+      { "from": ".claude/settings.json", "to": ".claude/settings.json" },
+      { "from": "claude/scripts", "to": ".claude/scripts" }
+    ],
+    "clones": [
+      { "from": ".gitignore_project", "to": ".gitignore", "ifMissing": true },
+      { "from": "templates/public/index.html", "to": "public/index.html", "ifMissing": true },
+      { "from": "templates/.github/copilot-instructions.md", "to": ".github/copilot-instructions.md", "ifMissing": true },
+      { "from": "templates/README.md", "to": "README.md", "ifMissing": true }
+    ],
+    "sourcePaths": ["src"],
+    "skillsDir": "claude/skills"
+  }
+}
