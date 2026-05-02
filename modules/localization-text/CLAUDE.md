@@ -75,4 +75,6 @@ I18n.t("ui.hello", {name: "Alex"})   // "Hello, {name}" -> "Hello, Alex"
 ## Skill
 
 Claude-skill для этого модуля — `claude/skills/localization-text/SKILL.md`.
-Подключение: `bash modules/localization-text/enable.sh`.
+Активация — через host-runner (Noreline UI → project Modules tab → Enable),
+который читает `module.json.lifecycle.skillsDir` и копирует skill в
+`.claude/skills/localization-text__localization-text/`.

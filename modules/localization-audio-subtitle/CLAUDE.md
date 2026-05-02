@@ -21,4 +21,7 @@
 
 ## Skill
 
-`claude/skills/localization-audio-subtitle/SKILL.md` — короткий маркер, сообщающий, что v1 пуст. Подключение: `bash modules/localization-audio-subtitle/enable.sh`.
+`claude/skills/localization-audio-subtitle/SKILL.md` — короткий маркер,
+сообщающий, что v1 пуст. Активация — через host-runner (Noreline UI →
+project Modules tab → Enable), который читает `module.json.lifecycle.skillsDir`
+и копирует skill в `.claude/skills/localization-audio-subtitle__localization-audio-subtitle/`.

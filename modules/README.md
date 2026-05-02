@@ -8,49 +8,72 @@ single command.
 > Requires `git-subrepo` installed (`brew install git-subrepo`). Without it
 > the files still work — only `pull` / `push` to upstream need the tool.
 
-## Lifecycle — what each script does
+## Lifecycle — declarative `module.json`
 
-Each module exposes three shell scripts with uniform semantics:
+Each module ships a **`module.json`** describing its lifecycle as data, not as
+shell scripts. A host runner (Noreline UI) executes the operations
+cross-platform.
 
-| Script        | Effect |
-|---------------|--------|
-| **enable.sh** | Activate the module. Registers `modules/<name>/src` in `build/profiles/main.json` (so the compiler picks it up), symlinks the module's Claude skills into `.claude/skills/`. For `haxeheaps-starter` it also symlinks infra (`CLAUDE.md`, `.claude/settings.json`, `.claude/scripts`) and **clones** one-shot templates (`.gitignore`, `public/index.html`, `.github/copilot-instructions.md`, `README.md`). |
-| **disable.sh** | Reverse of enable. Removes the sourcePath entry from `main.json`, unlinks the module's skills. Does **NOT** delete cloned files — those are project-owned after the first enable. Does **NOT** remove the module directory. |
-| **delete.sh** | DESTRUCTIVE. Runs `disable.sh` and then `rm -rf` on the module directory. Prompts for the module name as confirmation. Uncommitted/unpushed changes in the subrepo are lost. |
+| Field                   | Effect on **enable** | Reversed on **disable** |
+|-------------------------|----------------------|-------------------------|
+| `lifecycle.links`       | Symlink (junction on Windows / fallback copy) module file into project tree. | Yes — `unlink`. |
+| `lifecycle.clones`      | One-shot copy with `ifMissing: true` (never overwrites). | **No** — project owns the file after first enable. |
+| `lifecycle.sourcePaths` | Append `modules/<name>/<path>` to `build/profiles/main.json.sourcePaths`. | Yes — remove from `sourcePaths`. |
+| `lifecycle.skillsDir`   | Copy each subdir of `<module>/<skillsDir>/` to `.claude/skills/<module>__<skill>/`. | Yes — remove the namespaced skill dirs. |
 
-### Typical usage
+**Delete** = disable + `rm -rf modules/<name>/`. Uncommitted/unpushed subrepo
+changes are lost.
 
-```bash
-# First-time bootstrap after `git clone`:
-bash modules/gd-builder/enable.sh              # creates build/ (profiles/main.json + test.hxml)
-bash modules/haxeheaps-starter/enable.sh       # infra + skills
-bash modules/localization-base/enable.sh       # i18n contracts
-bash modules/localization-text/enable.sh       # i18n runtime
-bash modules/localization-audio-subtitle/enable.sh   # voice-line subtitles
+### Why declarative
 
-# Temporarily disable a module (keep directory, skip it in the build):
-bash modules/localization-audio-subtitle/disable.sh
+- **Cross-platform out of the box.** No `MSYS=winsymlinks:nativestrict`, no
+  inline-Python JSON-edit, no `realpath --relative-to`. The host runner
+  handles platform quirks once, in one place.
+- **Module author writes zero lifecycle code.** Just describe operations in
+  JSON. The runner is a separate concern.
+- **Inspectable.** A reviewer can read `module.json` and know exactly what
+  enable will do, without tracing through five `.sh` files.
 
-# Remove permanently (after confirming with module name):
-bash modules/localization-audio-subtitle/delete.sh
+### Example — `localization-text/module.json`
+
+```json
+{
+  "name": "localization-text",
+  "version": "0.1.0",
+  "description": "Runtime i18n: store, loader, signal, reactive text, fonts, config, macro validator.",
+  "dependencies": ["localization-base"],
+  "libs": ["heaps:git", "deepnightLibs"],
+  "lifecycle": {
+    "sourcePaths": ["src"],
+    "skillsDir": "claude/skills"
+  }
+}
 ```
+
+The richer `haxeheaps-starter/module.json` adds `links` (settings.json,
+hooks dir) and `clones` (`.gitignore`, `public/index.html`,
+`.github/copilot-instructions.md`, `README.md`).
+
+The `gd-builder/module.json` is the simplest case — only `clones` (bootstraps
+`build/profiles/main.json` and `build/test.hxml` once).
 
 ## Adding a new module
 
-A module is just a git repository with `src/`, optionally `test/`, `claude/skills/`,
-`module.json`, and the three `enable/disable/delete` scripts.
+A module is just a git repository with `src/`, optionally `test/`,
+`claude/skills/`, `CLAUDE.md`, and a **`module.json`** describing its
+lifecycle. No `enable.sh`/`disable.sh`/`delete.sh`.
 
 ```bash
 # Clone it into modules/ as a subrepo (from project root):
 git subrepo clone https://github.com/<owner>/<repo>.git modules/<name>
 
-# Activate:
-bash modules/<name>/enable.sh
+# Activate via the host runner (Noreline UI → project Modules tab → Enable).
 ```
 
-`git subrepo clone` creates `modules/<name>/.gitrepo` — a ~8-line metadata file
-remembering the remote URL, branch, and last-synced commit. That's the only
-on-disk trace of the subrepo relationship; everything else is ordinary files.
+`git subrepo clone` creates `modules/<name>/.gitrepo` — a ~8-line metadata
+file remembering the remote URL, branch, and last-synced commit. That's the
+only on-disk trace of the subrepo relationship; everything else is ordinary
+files.
 
 ## Updating a module from upstream
 
@@ -100,16 +123,18 @@ Once a TODO module gets its GitHub repo, update `.gitrepo` in that directory
 to set the `remote` URL, then `git subrepo push modules/<name>` to publish the
 current tree.
 
-The project-level `build/` directory at the repo root (not inside `modules/`) holds
-the compiled `*.hxml` files and `profiles/main.json` — it is cloned from
-`modules/gd-builder/templates/` by `gd-builder/enable.sh` and owned by the project
-thereafter.
+The project-level `build/` directory at the repo root (not inside `modules/`)
+holds the compiled `*.hxml` files and `profiles/main.json` — it is cloned
+from `modules/gd-builder/templates/` by the host runner on `gd-builder`'s
+enable, and owned by the project thereafter.
 
 ## Where to look next
 
 - `CLAUDE.md` in this directory — short AI-oriented guide on the module
   conventions (load automatically when Claude works inside `modules/`).
 - Each module's own `CLAUDE.md` — module-specific rules.
+- Each module's `module.json` — declarative lifecycle (auth source of truth
+  for what enable/disable does).
 - `build/profiles/main.json` — the single source of truth for which
   module `src/` dirs are compiled.
 - `modules/<name>/.gitrepo` — per-module subrepo metadata (auto-managed).

@@ -1,6 +1,11 @@
 {
   "name": "localization-text",
+  "version": "0.1.0",
   "description": "Runtime i18n: store, loader, signal, reactive text, fonts, config, macro validator.",
-  "sourcePaths": ["src"],
-  "libs": ["heaps:git", "deepnightLibs"]
+  "dependencies": ["localization-base"],
+  "libs": ["heaps:git", "deepnightLibs"],
+  "lifecycle": {
+    "sourcePaths": ["src"],
+    "skillsDir": "claude/skills"
+  }
 }

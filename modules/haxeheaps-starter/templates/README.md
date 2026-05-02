@@ -8,13 +8,11 @@ Haxe/Heaps.io game.
 git clone <this-repo-url>
 cd <this-repo>
 
-# Activate each module (starter first — it bootstraps infra + templates)
-bash modules/haxeheaps-starter/enable.sh
-bash modules/localization-base/enable.sh
-bash modules/localization-text/enable.sh
-bash modules/localization-audio-subtitle/enable.sh
+# Modules are managed by the host runner (Noreline UI → project page →
+# Modules tab → Enable). For manual activation in a standalone clone,
+# follow each module's module.json — see modules/README.md for the schema.
 
-# Build / test / run — build.py is owned by gd-builder
+# Once modules are enabled, build / test / run via gd-builder:
 python modules/gd-builder/build.py build debug web
 python modules/gd-builder/build.py test
 python modules/gd-builder/build.py run debug web
@@ -26,7 +24,7 @@ python modules/gd-builder/build.py run debug web
 src/     — game code (ECS, systems, states, UI)
 res/     — assets (sprites, maps, fonts)
 test/    — utest specs (pure logic, no Heaps deps)
-modules/ — reusable modules (git subtrees); see modules/README.md
+modules/ — reusable modules (git subrepos); see modules/README.md
 ```
 
 ## Modules
@@ -39,8 +37,11 @@ modules/ — reusable modules (git subtrees); see modules/README.md
 | `localization-text` | Runtime text translation for Heaps |
 | `localization-audio-subtitle` | Voice-line subtitles (skeleton) |
 
-Lifecycle commands (per-module): `enable.sh`, `disable.sh`, `delete.sh`.
-Full lifecycle + subtree push/pull instructions: `modules/README.md`.
+Each module ships a **`module.json`** describing its lifecycle declaratively
+(links, clones, sourcePaths, skillsDir). The host runner reads it and
+performs activation cross-platform — no shell scripts required.
+
+Full schema + subrepo push/pull instructions: `modules/README.md`.
 
 ## License
 
