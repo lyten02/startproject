@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/Lyten02/haxeheaps-starter.git
 	branch = main
-	commit = baecc280ca917b1a04b23d863ce8dca8a03cc9f5
+	commit = a75979592c32f24388258252bd668652eda2d8ea
 	method = merge
 	cmdver = 0.4.9
-	parent = a9c26653687654a2fdc361388878e1465eaefe4e
+	parent = 97731b4bf1115c8489e677bdd870867217e1f42c
