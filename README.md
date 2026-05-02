@@ -13,7 +13,7 @@
 - **`build/profiles/main.json`** — single source of truth for which module
   source directories are compiled. Updated by the host runner when modules
   are enabled / disabled.
-- **`modules/`** — git-subrepo'd modules. Each provides:
+- **`modules/`** — git submodules. Each provides:
   - `src/` — the module's Haxe code (when applicable).
   - `module.json` — declarative lifecycle metadata (links, clones,
     sourcePaths, skillsDir, dependencies).
@@ -71,12 +71,20 @@ Every field except `name` is optional. The host runner:
 **Disable** reverses links, sourcePaths, and skills (clones stay — project
 owns them). **Delete** = disable + remove the module directory entirely.
 
+## Cloning the project
+
+```bash
+git clone --recurse-submodules https://github.com/Lyten02/StartProject.git
+# Or, after a plain clone:
+git submodule update --init --recursive
+```
+
 ## Adding a new module
 
 Through the Noreline UI on the project's Modules tab, or manually:
 
 ```bash
-git subrepo clone https://github.com/owner/<name>.git modules/<name>
+git submodule add https://github.com/owner/<name>.git modules/<name>
 # Then activate via the host runner.
 ```
 
@@ -86,11 +94,19 @@ scripts to write.
 ## Pulling module updates
 
 ```bash
-git subrepo pull modules/<name>
+git submodule update --remote modules/<name>
+git add modules/<name>
+git commit -m "chore(modules): bump <name>"
 ```
 
 ## Pushing module changes upstream
 
 ```bash
-git subrepo push modules/<name>
+cd modules/<name>
+git checkout main
+git add . && git commit -m "..."
+git push origin main
+cd ../..
+git add modules/<name>
+git commit -m "chore(modules): bump <name>"
 ```

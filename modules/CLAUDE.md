@@ -5,9 +5,10 @@
 
 ## TL;DR
 
-Each `modules/<name>/` directory is a **git-subrepo** that ships `src/`,
-optionally `test/`, `claude/skills/`, `CLAUDE.md`, `.gitrepo` (subrepo
-metadata), and a **`module.json`** declaring its lifecycle as data.
+Each `modules/<name>/` directory is a **git submodule** that ships `src/`,
+optionally `test/`, `claude/skills/`, `CLAUDE.md`, and a **`module.json`**
+declaring its lifecycle as data. The parent repo pins each module to a
+specific upstream commit via `.gitmodules` + a 160000-mode index entry.
 
 The lifecycle is **declarative** — no shell scripts. A host runner (Noreline
 UI on the project's Modules tab) reads `module.json` and executes the
@@ -81,9 +82,10 @@ flag.
    acceptable only as a last-resort override.
 
 2. **Module edits are upstreamable.** If you change a file inside
-   `modules/<name>/`, assume it will eventually be `git subrepo push modules/<name>`'d
-   to the module's upstream repo. Don't put project-specific hacks there —
-   those go under `src/` of the main project.
+   `modules/<name>/`, commit it inside the submodule (`cd modules/<name> &&
+   git add . && git commit && git push origin main`), then bump the parent
+   pointer (`git add modules/<name>` from the project root). Don't put
+   project-specific hacks there — those go under `src/` of the main project.
 
 3. **Skills and hooks live inside the owning module**, not in the project
    root. `haxeheaps-starter` owns the generic hooks + skills; a feature
@@ -107,8 +109,9 @@ When you create a new module:
 - [ ] `test/` with utest specs (if the module has pure-logic tests).
 - [ ] `claude/skills/<skill-name>/SKILL.md` if the module ships a Claude
       skill. Reference the parent dir via `lifecycle.skillsDir: "claude/skills"`.
-- [ ] Push to upstream via
-      `git subrepo push modules/<name>` (remote URL is stored in `.gitrepo`).
+- [ ] Push module changes upstream from inside the submodule
+      (`cd modules/<name> && git push origin main`), then commit the
+      pointer bump in the parent repo (`git add modules/<name>`).
 
 **Do NOT add `enable.sh` / `disable.sh` / `delete.sh`.** All lifecycle is in
 `module.json`. The host runner is the only thing that performs activation.

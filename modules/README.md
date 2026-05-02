@@ -1,12 +1,14 @@
 # modules/ — reusable building blocks
 
-Every directory here is a **git-subrepo** tracking an upstream GitHub repo.
-Content lives in the main project's git history — one `git clone` (no
-`--recursive`, no submodule init) brings everything. Per-module sync is a
-single command.
+Every directory here is a **git submodule** pinned to an upstream GitHub
+repo. The parent repo stores only the path + URL (in `.gitmodules`) and a
+160000-mode pointer to a specific commit; module content lives in its own
+upstream history.
 
-> Requires `git-subrepo` installed (`brew install git-subrepo`). Without it
-> the files still work — only `pull` / `push` to upstream need the tool.
+> Native git, no extra tooling. Clone with `git clone --recurse-submodules`,
+> or run `git submodule update --init` after a plain clone. A one-time
+> `git config --global submodule.recurse true` makes future `pull` /
+> `checkout` recurse automatically.
 
 ## Lifecycle — declarative `module.json`
 
@@ -21,8 +23,9 @@ cross-platform.
 | `lifecycle.sourcePaths` | Append `modules/<name>/<path>` to `build/profiles/main.json.sourcePaths`. | Yes — remove from `sourcePaths`. |
 | `lifecycle.skillsDir`   | Copy each subdir of `<module>/<skillsDir>/` to `.claude/skills/<module>__<skill>/`. | Yes — remove the namespaced skill dirs. |
 
-**Delete** = disable + `rm -rf modules/<name>/`. Uncommitted/unpushed subrepo
-changes are lost.
+**Delete** = disable + `git submodule deinit -f modules/<name>` +
+`git rm -f modules/<name>` + `rm -rf .git/modules/<name>`. Uncommitted/
+unpushed work inside the submodule is lost.
 
 ### Why declarative
 
@@ -64,26 +67,28 @@ A module is just a git repository with `src/`, optionally `test/`,
 lifecycle. No `enable.sh`/`disable.sh`/`delete.sh`.
 
 ```bash
-# Clone it into modules/ as a subrepo (from project root):
-git subrepo clone https://github.com/<owner>/<repo>.git modules/<name>
+# Add it as a submodule (from project root):
+git submodule add https://github.com/<owner>/<repo>.git modules/<name>
 
 # Activate via the host runner (Noreline UI → project Modules tab → Enable).
 ```
 
-`git subrepo clone` creates `modules/<name>/.gitrepo` — a ~8-line metadata
-file remembering the remote URL, branch, and last-synced commit. That's the
-only on-disk trace of the subrepo relationship; everything else is ordinary
-files.
+`git submodule add` registers the path + URL in `.gitmodules` and stages a
+160000-mode entry pointing at the upstream's current `HEAD`. The parent
+commit captures *that exact SHA*; future cloners get the same pinned commit.
 
 ## Updating a module from upstream
 
 ```bash
-# From project root, pull the latest upstream commits:
-git subrepo pull modules/<name>
+# From project root, advance the pointer to the upstream's latest tip:
+git submodule update --remote modules/<name>
+git add modules/<name>
+git commit -m "chore(modules): bump <name> to <new-sha-prefix>"
 ```
 
-This single command does the equivalent of fetch + merge + bookkeeping on
-`.gitrepo`. No remote aliases needed — the URL is baked in on `clone`.
+`update --remote` fetches the upstream branch (`main` by default; override
+in `.gitmodules` with `branch = <name>`) and checks out its tip. Then `git
+add` records the bumped pointer in the parent.
 
 ## Pushing your changes back to upstream
 
@@ -91,23 +96,17 @@ When you edit files inside `modules/<name>/` and those changes belong in the
 upstream module:
 
 ```bash
-git subrepo push modules/<name>
+cd modules/<name>
+git checkout main             # submodules default to detached HEAD on clone
+git add . && git commit -m "<module-scoped message>"
+git push origin main
+cd ../..
+git add modules/<name>        # the parent records the bumped pointer
+git commit -m "chore(modules): bump <name>"
 ```
 
-Subrepo slices out the subdirectory's history and pushes it to the remote.
-Main-repo history stays clean (one synthetic commit per push, not merge
-artifacts).
-
-### Binding a remote later
-
-If a module was initialised without an upstream (see TODO modules below),
-attach one when its GitHub repo is ready:
-
-```bash
-# Edit modules/<name>/.gitrepo and set `remote = https://github.com/<owner>/<repo>.git`
-# Then push the current state to populate the new remote:
-git subrepo push modules/<name>
-```
+Each submodule has its own working tree, index, and history — the parent
+repo only tracks which commit of each submodule it's pinned to.
 
 ## Current modules
 
@@ -115,13 +114,9 @@ git subrepo push modules/<name>
 |---|---|---|
 | `haxeheaps-starter` | `github.com/Lyten02/haxeheaps-starter` | Project framework: `CLAUDE.md`, Claude hooks, infra templates, `skill-writer`, `AppBase/IGame/IModule` |
 | `gd-builder` | `github.com/Lyten02/gd-builder` | Build orchestrator — **owns `build.py`** plus `build / run / watch / publish / clean / test / lint`. Ships `haxe/TestCollector.hx` macro. |
-| `localization-base` | *(TODO — not yet on GitHub, subrepo has `remote = none`)* | Pure i18n contracts (`I18nContract`, `LocaleId`, `LocEvent`) |
-| `localization-text` | *(TODO — not yet on GitHub, subrepo has `remote = none`)* | Runtime text translation for Heaps UI |
-| `localization-audio-subtitle` | *(TODO — not yet on GitHub, subrepo has `remote = none`)* | Voice-line subtitles (skeleton — v1 is empty) |
-
-Once a TODO module gets its GitHub repo, update `.gitrepo` in that directory
-to set the `remote` URL, then `git subrepo push modules/<name>` to publish the
-current tree.
+| `localization-base` | `github.com/Lyten02/localization-base` | Pure i18n contracts (`I18nContract`, `LocaleId`, `LocEvent`) |
+| `localization-text` | `github.com/Lyten02/localization-text` | Runtime text translation for Heaps UI |
+| `localization-audio-subtitle` | `github.com/Lyten02/localization-audio-subtitle` | Voice-line subtitles (skeleton — v1 is empty) |
 
 The project-level `build/` directory at the repo root (not inside `modules/`)
 holds the compiled `*.hxml` files and `profiles/main.json` — it is cloned
@@ -137,4 +132,5 @@ enable, and owned by the project thereafter.
   for what enable/disable does).
 - `build/profiles/main.json` — the single source of truth for which
   module `src/` dirs are compiled.
-- `modules/<name>/.gitrepo` — per-module subrepo metadata (auto-managed).
+- `.gitmodules` (repo root) — submodule registry (path + URL + optional
+  `branch`), auto-managed by `git submodule add` / `mv`.

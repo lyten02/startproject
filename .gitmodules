@@ -1,0 +1,15 @@
+[submodule "modules/gd-builder"]
+	path = modules/gd-builder
+	url = https://github.com/Lyten02/gd-builder.git
+[submodule "modules/haxeheaps-starter"]
+	path = modules/haxeheaps-starter
+	url = https://github.com/Lyten02/haxeheaps-starter.git
+[submodule "modules/localization-base"]
+	path = modules/localization-base
+	url = https://github.com/Lyten02/localization-base.git
+[submodule "modules/localization-text"]
+	path = modules/localization-text
+	url = https://github.com/Lyten02/localization-text.git
+[submodule "modules/localization-audio-subtitle"]
+	path = modules/localization-audio-subtitle
+	url = https://github.com/Lyten02/localization-audio-subtitle.git
